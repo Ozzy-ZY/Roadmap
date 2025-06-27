@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.NET Back-End Developer Roadmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .roadmap {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .phase {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .phase:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .phase-header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .topic-card {
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            transition: left 0.3s ease;
+        }
+
+        .topic-card:hover::before {
+            left: 0;
+        }
+
+        .topic-card:hover {
+            border-color: #4CAF50;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+        }
+
+        .topic-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .topic-number {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 0.9rem;
+        }
+
+        .topic-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .topic-description {
+            color: #5a6c7d;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .success-tips {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+
+        .success-tips h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .tip-item:hover {
+            transform: scale(1.05);
+        }
+
+        .tip-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .tip-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .phase {
+                padding: 20px;
+            }
+            
+            .topic-card {
+                padding: 15px;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-indicator">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="container">
+        <div class="header fade-in">
+            <h1>.NET Back-End Developer Roadmap</h1>
+            <p>Your comprehensive guide to becoming a professional .NET developer with SQL Server</p>
+        </div>
+
+        <div class="roadmap">
+            <!-- Phase I -->
+            <div class="phase fade-in">
+                <div class="phase-header" >Phase I - Programming Fundamentals</div>
+                <div class="topics-grid">
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=TxaZYXtZWCM&list=PL4n1Qos4Tb6SWPbJNpiznp-Ok4A8J_23l&index=2'">
+                        <div class="topic-header">
+                            <div class="topic-number">1</div>
+                            <div class="topic-title">C# Basics</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Become familiar with the syntax of C# and can understand what most code does
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=T9DAwNXggPI&list=PLsV97AQt78NQumtM4rQc77yjbkZcGOTX5&index=1'">
+                        <div class="topic-header">
+                            <div class="topic-number">2</div>
+                            <div class="topic-title">OOP in C#</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Understand the OOP paradigm through implementing the Principles of OOP (Encapsulation, Inheritance, etc.)
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=mA1pOrYAHCU&list=PL4n1Qos4Tb6SWPbJNpiznp-Ok4A8J_23l&index=26'">
+                        <div class="topic-header">
+                            <div class="topic-number">3</div>
+                            <div class="topic-title">Exception Handling and Debugging</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Write Exception Safe code through proper exception handling and explore code paths and identifying the broken parts using Debugging tools in IDE or VS
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase II -->
+            <div class="phase fade-in">
+                <div class="phase-header">Phase II - .NET Framework Fundamentals</div>
+                <div class="topics-grid">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-number">4</div>
+                            <div class="topic-title"onclick="window.location.href='https://www.youtube.com/watch?v=bEfBfBQq7EE&t=3s'">Understand the .Net Ecosystem</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> understand the Differences between .Net Versions, understand the Ecosystem (CLR, BCL, JIT Runtime, GC, etc..)
+                        </div>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-number">5</div>
+                            <div class="topic-title"onclick="window.location.href='https://www.youtube.com/watch?v=XLIqOBr7Cm0&list=PL4n1Qos4Tb6Sj1Y4xJuJoWCuqleeG2yt6'">Collections and LINQ</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Master the collections (Data Structures) Provided by the Language (List, Dictionary, etc...)
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=XG3AY2MDj7M&list=PL4n1Qos4Tb6SWPbJNpiznp-Ok4A8J_23l&index=36'">
+                        <div class="topic-header">
+                            <div class="topic-number">6</div>
+                            <div class="topic-title">File I/O and Serialization</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Understand how to work with external Files and their formats learn about JSON and XML serialization
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=ndQQssx_RQA&list=PL4n1Qos4Tb6SWPbJNpiznp-Ok4A8J_23l&index=38'">
+                        <div class="topic-header">
+                            <div class="topic-number">7</div>
+                            <div class="topic-title">Asynchronous Programming</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Understand how to work with asynchronous code using async/await patterns and Task-based programming
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase III -->
+            <div class="phase fade-in">
+                <div class="phase-header">Phase III - Database Fundamentals</div>
+                <div class="topics-grid">
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=ztHopE5Wnpc&t=1031s'">
+                        <div class="topic-header">
+                            <div class="topic-number">8</div>
+                            <div class="topic-title">Database Design</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> learn how to make decisions on how the data should be modeled using relations
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=TIjkobAtdyw&list=PL1DUmTEdeA6J6oDLTveTt4Z7E5qEfFluE&index=3'">
+                        <div class="topic-header">
+                            <div class="topic-number">9</div>
+                            <div class="topic-title">T-SQL</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Master SQL Queries and the syntax of T-SQL programming
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase IV -->
+            <div class="phase fade-in">
+                <div class="phase-header">Phase IV - Data Access Technologies</div>
+                <div class="topics-grid">
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=WEVJeTBifAY&list=PL4n1Qos4Tb6QZkbTWJx7wHqEABP8Pg6uv&index=2'">
+                        <div class="topic-header">
+                            <div class="topic-number">10</div>
+                            <div class="topic-title">ADO.NET Fundamentals</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> learn how to interact with DBs without much abstraction
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=4edLDnhS0NA&list=PL4n1Qos4Tb6QZkbTWJx7wHqEABP8Pg6uv&index=5'">
+                        <div class="topic-header">
+                            <div class="topic-number">11</div>
+                            <div class="topic-title">Entity Framework Core</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Master an ORM like EF Core explore both Code-First and DB-First approaches, Migrations and querying using LINQ
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=VfH6hLsGM_Y&list=PL62tSREI9C-e6nQ47brLj00iSGddiee73&index=1'">
+                        <div class="topic-header">
+                            <div class="topic-number">12</div>
+                            <div class="topic-title">Repository Pattern and Unit of Work</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> learn the Design patterns that abstract the Data access logic useful in cases when you may switch DBs and EF Core Frameworks it
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase V -->
+            <div class="phase fade-in">
+                <div class="phase-header">Phase V - Web API Development</div>
+                <div class="topics-grid">
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=UQBnbGyDIMQ&list=PLsV97AQt78NQ8E7cEqovH0zLYRJgJahGh&index=1'">
+                        <div class="topic-header">
+                            <div class="topic-number">13</div>
+                            <div class="topic-title">Web APIs Basics</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Create a simple REST API using .Net 8+ learn about Controllers, Action Methods, routing, HTTP Verbs
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=vaDDB7BpEgQ'">
+                        <div class="topic-header">
+                            <div class="topic-number">14</div>
+                            <div class="topic-title">Model Binding, Validation</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Understand how NET maps HTTP requests to C# objects and implement data validation using data annotations and custom validators
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection'">
+                        <div class="topic-header">
+                            <div class="topic-number">15</div>
+                            <div class="topic-title">Dependency Injection</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Learn .NET's built-in dependency injection container. Understand service lifetimes (Singleton, Scoped, Transient) and how to register and inject services
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0'">
+                        <div class="topic-header">
+                            <div class="topic-number">16</div>
+                            <div class="topic-title">Request Pipeline</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Understand how .NET processes HTTP requests through the middleware pipeline
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase VI -->
+            <div class="phase fade-in">
+                <div class="phase-header">Phase VI - Authentication & Security</div>
+                <div class="topics-grid">
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=6DWJIyipxzw&t=5s'">
+                        <div class="topic-header">
+                            <div class="topic-number">17</div>
+                            <div class="topic-title">Authentication and Authorization</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Implement JWT (JSON Web Tokens) authentication, role-based authorization, and policy-based authorization Learn about claims, identity, and securing API endpoints from unauthorized access
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://learn.microsoft.com/en-us/aspnet/core/security/?view=aspnetcore-9.0'">
+                        <div class="topic-header">
+                            <div class="topic-number">18</div>
+                            <div class="topic-title">Security Best Practices</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Understand common security vulnerabilities (SQL injection, XSS, CSRF) and how to prevent them Learn about HTTPS, password hashing, and secure configuration practice
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase VII -->
+            <div class="phase fade-in">
+                <div class="phase-header">Phase VII - Advanced Topics</div>
+                <div class="topics-grid">
+                    <div class="topic-card" onclick="window.location.href='https://learn.microsoft.com/en-us/dotnet/core/extensions/caching'">
+                        <div class="topic-header">
+                            <div class="topic-number">19</div>
+                            <div class="topic-title">Caching</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Implement in-memory caching and distributed caching using Redis. Learn when and how to cache data to improve application performance
+                        </div>
+                    </div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=nVAkSBpsuTk'">
+                        <div class="topic-header">
+                            <div class="topic-number">20</div>
+                            <div class="topic-title">Logging and Monitoring</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Implement structured logging using Serilog or NLog Learn about application monitoring, health checks
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase VIII -->
+            <div class="phase fade-in" onclick="window.location.href='https://www.youtube.com/watch?v=e9q-ocrt4UI&list=PLOeFnOV9YBa4Q1a7V5jWTGG9RSpKMYTpK'">
+                <div class="phase-header">Phase VIII - Testing</div>
+                <div class="topics-grid">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-number">21</div>
+                            <div class="topic-title">Unit Testing</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Write unit tests for your business logic using xUnit framework. Learn about mocking dependencies with Moq and testing best practices
+                        </div>
+                    </div>
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-number">22</div>
+                            <div class="topic-title">Integration Testing</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Test your APIs and database interactions using NET testing framework. Integration tests verify that different components work together correctly
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase IX -->
+            <div class="phase fade-in">
+                <div class="phase-header">Phase IX - docker</div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=cWMztQwIQNs'">
+                        <div class="topic-header">
+                            <div class="topic-number">24</div>
+                            <div class="topic-title">Docker (Optional)</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Learn to containerize your .NET applications using Docker. Understand container concepts, Dockerfile creation, and container orchestration basics
+                        </div>
+                    </div>
+                </div>
+
+            <div class="phase fade-in">
+                <div class="phase-header">Phase X - Extra</div>
+                    <div class="topic-card" onclick="window.location.href='https://www.youtube.com/watch?v=HvxmF0FUwrM'">
+                        <div class="topic-header">
+                            <div class="topic-number">25</div>
+                            <div class="topic-title">SQL optimization and performance</div>
+                        </div>
+                        <div class="topic-description">
+                            <strong>Objective:</strong> Learn to optimize SQL queries and improve database performance. Understand indexing, query execution plans, and performance tuning techniques
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Learning Resources -->
+        <div class="success-tips fade-in" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+            <h2>📚 Recommended Learning Resources</h2>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <div class="tip-number">📺</div>
+                    <div class="tip-title">YouTube Channels</div>
+                    <div class="tip-description">
+                        • Metigator - Comprehensive C# tutorials in Arabic<br>
+                        • Milan Jovanović - Architecture and lots of different topics<br>
+                        • Raw Coding - Advanced .NET concepts<br>
+                        • Nick Chapsas - Modern .NET practices and good content overall
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-number">📖</div>
+                    <div class="tip-title">Essential Books</div>
+                    <div class="tip-description">
+                        • "C# 12 in a Nutshell" by Joseph Albahari<br>
+                        • "Entity Framework Core in Action" by Jon Smith<br>
+                        • "Clean Code" by Robert Martin
+                        • SQL Server 2022 Query Performance Tuning: Troubleshoot and Optimize Query Performance by Grant Fritchey
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-number">💻</div>
+                    <div class="tip-title">Practice Platforms</div>
+                    <div class="tip-description">
+                        • LeetCode (Algorithm practice)<br>
+                        • codecrafters (building from scratch type of projects)<br>
+                        • GitHub (Open source projects)
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-number">👥</div>
+                    <div class="tip-title">Communities</div>
+                    <div class="tip-description">
+                        • Stack Overflow (.NET tags)<br>
+                        • Reddit r/dotnet community<br>
+                        • .NET Discord servers<br>
+                        • Local .NET meetup groups
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Tips -->
+        <div class="success-tips fade-in">
+            <h2>🚀 Key Success Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <div class="tip-number">1.</div>
+                    <div class="tip-title">Build Projects</div>
+                    <div class="tip-description">Apply each concept by building real applications</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-number">2.</div>
+                    <div class="tip-title">Practice Regularly</div>
+                    <div class="tip-description">Code every day, even if just for 30 minutes</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-number">3.</div>
+                    <div class="tip-title">Join Communities</div>
+                    <div class="tip-description">Participate in .NET developer forums and Discord servers</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-number">4.</div>
+                    <div class="tip-title">Read Documentation</div>
+                    <div class="tip-description">Get comfortable with Microsoft's official documentation</div>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-number">5.</div>
+                    <div class="tip-title">Code Reviews</div>
+                    <div class="tip-description">Seek feedback on your code from experienced developers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Progress bar animation
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('progressBar').style.width = scrollPercent + '%';
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.1s';
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all phases and elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.phase, .success-tips');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+                observer.observe(el);
+            });
+
+            // Add click interaction to topic cards
+            const topicCards = document.querySelectorAll('.topic-card');
+            topicCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+
+        // Event listeners
+        window.addEventListener('scroll', updateProgressBar);
+        window.addEventListener('resize', updateProgressBar);
+    </script>
+</body>
+</html>
